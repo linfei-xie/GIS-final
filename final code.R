@@ -14,7 +14,7 @@ gw_maps <- readOGR("barcelona_data.shp", stringsAsFactors = F, use_iconv = T, en
 names(gw_maps)
 
 
-# 输出shp文件经纬度范围，确定图例大致位置
+# range
 gw_maps@bbox
 
 # label
@@ -22,7 +22,7 @@ list2 <- list("SpatialPolygonsRescale", layout.north.arrow(),
               offset = c(229200,5051000), scale = 2000) # compass
 list3 <- list("SpatialPolygonsRescale", layout.scale.bar(), 
               offset = c(231000,5051800), scale = 4000, fill=c("transparent","black")) # label
-s1_text0 <- list("sp.text", c(231000, 5050600 + 2000), "0", cex = 0.8) # 图例标度设置
+s1_text0 <- list("sp.text", c(231000, 5050600 + 2000), "0", cex = 0.8) 
 s1_text1 <- list("sp.text", c(231000 + 4000, 5050600 + 2000), "4000m", cex = 0.8) 
 
 
@@ -40,7 +40,7 @@ moran.mc(gw_maps$airbnb, listw = queen.wl, nsim = 999, alternative = 'greater')
 # moran
 lomoran <- data.frame(localmoran(gw_maps$airbnb, listw = queen.wl, alternative = "greater"))
 gw_maps@data[names(lomoran)] <- lomoran
-write.xlsx(lomoran, "lomoran.xlsx") # 导出表格
+
 
 CairoPNG(file="lomoran.png",width=429,height=508)
 spplot(gw_maps, "Ii",
@@ -58,7 +58,7 @@ dev.off()
 # hotcold
 localG(gw_maps$airbnb, listw = queen.wl)[1:73]
 gw_maps@data$localG <- localG(gw_maps$airbnb, listw = queen.wl)[1:73]
-write.xlsx(data.frame(localG(gw_maps$airbnb, listw = queen.wl)[1:73]), "localG.xlsx") # 导出表格
+
 
 CairoPNG(file="Getis.map.png",width=429,height=508)
 spplot(gw_maps, "localG",
